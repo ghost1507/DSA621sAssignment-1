@@ -1,0 +1,154 @@
+openapi: 3.0.1
+info:
+  title: Lecturers
+  version: 0.1.0
+servers:
+- url: "{server}:{port}/ Lecturers"
+  variables:
+    server:
+      default: http://localhost
+    port:
+      default: "9090"
+paths:
+  /addlecturer:
+    post:
+      summary: Insert a new lecturer
+      operationId: postAddlecturer
+      description: Create a new lecturer and adds it to the Lecturer record
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lecturer'
+      responses:
+        "201":
+          description: Lecturer record successfully created
+          content:
+            text/plain:
+              schema:
+                type: string
+  /update_lecturer:
+    post:
+      summary: Update an existing lecturer
+      operationId: postUpdateLecturer
+      description: Updates an existing lecturers record.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lecturer'
+      responses:
+        "201":
+          description: Lecturer record successfully updated
+          content:
+            text/plain:
+              schema:
+                type: string
+  /lecturerId:
+    get:
+      summary: Retrieve a lecturer record
+      operationId: getLecturerid
+      description: Retrieve's a lecturers record based on a given staff number
+      parameters:
+      - name: staffno
+        in: query
+        description: Staff number of Lecturer to be Retrieved.
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lecturer'
+            text/plain:
+              schema:
+                type: string
+               
+  /all_lecturers:
+    get:
+      summary: Retrieve's lecturers records
+      operationId: getall_lecturers
+      description: Retrieve's all lecturers in the faculty and their details.
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lecturer'
+            text/plain:
+              schema:
+                type: string
+  /remove_lecturer:
+    delete:
+      summary: Delete a Lecturer
+      operationId: deleteRemoveLecturer
+      description: Removes a specific lecturer record based on the staff number provided.
+      parameters:
+      - name: staffno
+        in: query
+        description: Staff number of the lecturer record to be deleted.
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Ok
+          content:
+            text/plain:
+              schema:
+                type: string
+  /lecturer_office:
+    get:
+      summary: Retrieve a lecturer by office number.
+      operationId: getLecturerOffice
+      description: Retrieves all lecturers who sit in the same office.
+      parameters:
+      - name: office_number
+        in: query
+        description: Office number of the lecturers to be retrieved.
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lecturer'
+            text/plain:
+              schema:
+                type: string
+components:
+  schemas:
+    Lecturer:
+      required:
+      - courses_taken
+      - office_number
+      - staff_name
+      - staff_number
+      - title
+      title: Lecturer Description
+      type: object
+      properties:
+        staff_number:
+          type: string
+          description: Staff number of the lecturer
+        office_number:
+          type: string
+          description: Office numer of the lecturer
+        staff_name:
+          type: string
+          description: Name of the lecturer
+        title:
+          type: string
+          description: Title of the lecturer
+        courses_taken:
+          type: array
+          description: Coureses Taken By The lecturer
+          items:
+            type: string
